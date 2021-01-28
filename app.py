@@ -1,11 +1,12 @@
 import sys
 import os
+
 # from functions_file import *
 
 def clear():
     os.system( 'cls' )
 
-print('Welcome to the app!')
+print('Welcome to the Coffee House!')
 
 products = []
 couriers = []
