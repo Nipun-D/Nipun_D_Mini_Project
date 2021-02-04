@@ -5,7 +5,7 @@ from products_functions import *
 from couriers_functions import *
 from orders_functions import *
 
-print('Welcome to the app!')
+print('Welcome to the Coffee House!')
 
 products = []
 couriers = []
