@@ -1,149 +1,63 @@
 import sys
 import os
-# from functions_file import *
-
-def clear():
-    os.system( 'cls' )
+import csv
+from products_functions import *
+from couriers_functions import *
+from orders_functions import *
 
 print('Welcome to the app!')
 
 products = []
 couriers = []
+orders_list = []
 
-def open_product_file():
-    try:
-        with open("products.txt",'r') as products_file:
-            products_in_file = products_file.readlines()
-            for product in products_in_file:
-                products.append(product.rstrip())
-    except:
-        print('Failed to open file')
+def clear():
+    os.system( 'cls' )
 
-def open_courier_file():
-    try:
-        with open("couriers.txt",'r') as couriers_file:
-            couriers_in_file = couriers_file.readlines()
-            for courier in couriers_in_file:
-                couriers.append(courier.rstrip())
-    except:
-        print('Failed to open file')
-
-def update_product_file():
-    try:
-        with open("products.txt",'w') as products_file:
-            for product in products:
-                products_file.write(product + '\n')
-    except:
-        print('Failed to open file')
-
-def update_courier_file():
-    try:
-        with open("couriers.txt",'w') as couriers_file:
-            for courier in couriers:
-                couriers_file.write(courier + '\n')
-    except:
-        print('Failed to open file')
-
-def add_new_product():
-    add_product = input("What product would you like to add? ").lower()
-    products.append(add_product)
-
-def edit_existing_product():
-    print(f"Products available to edit: {products} \n Would you like to edit an existing product? \n")
-    print("Options: \n Return to main menu (type 0) | Edit existing product (type 1) \n ")
-    edit_options = int(input("Would you like to continue editing a product? "))
-    if edit_options == 0:
-        clear()
-        return None
-    elif edit_options == 1:
-        clear()  
-        for (i, item) in enumerate(products, start=1):
-            print(i, item)
-        edit_input_index = int(input("Which item would you like to edit? \n please enter the number it appears in the list - "))
-        edit_input_product =input("Enter the new product name: ").lower()
-        products[edit_input_index-1] = edit_input_product
-
-def delete_product():
-    print(f"Products available to remove: {products} \n Would you like to delete a product? \n")
-    print("Options: \n Return to main menu (type 0) | Remove existing product (type 1) \n ")
-    delete_options = int(input("Would you like to continue removing a product? "))
-    if delete_options == 0:
-        clear()
-        return None
-    elif delete_options ==1:
-        delete_input_product = input("Which product would you like to remove? ").lower()
-        products.remove(delete_input_product)
-
-def add_new_courier():
-    add_courier = input("What product would you like to add? ").lower()
-    products.append(add_courier)
-
-def edit_existing_courier():
-    print(f"Couriers available to edit: {couriers} \n Would you like to edit an existing courier? \n")
-    print("Options: \n Return to main menu (type 0) | Edit existing courier (type 1) \n ")
-    edit_options = int(input("Would you like to continue editing an existing courier? "))
-    if edit_options == 0:
-        clear()
-        return None
-    elif edit_options == 1: 
-        clear()
-        for (i, item) in enumerate(products, start=1):
-            print(i, item)
-        edit_input_index = int(input("Which courier would you like to edit? \n please enter the number they appears in the list - "))
-        edit_input_product =input("Enter the new courier name: ").lower()
-        products[edit_input_index-1] = edit_input_product
-
-def delete_courier():
-    print(f"Couriers available to remove: {couriers} \n Would you like to remove a courier? \n")
-    print("Options: \n Return to main menu (type 0) | Remove existing courier (type 1) \n ")
-    delete_options = int(input("Would you like to continue removing a courier? "))
-    if delete_options == 0:
-        clear()
-        return None
-    elif delete_options == 1:
-        delete_input_product = input("Which courier would you like to remove? ").lower()
-        products.remove(delete_input_product)
-
-open_product_file()
-open_courier_file()
+open_product_file(products)
+open_courier_file(couriers)
+open_orders_file(orders_list)
 
 while True:
-    print('Options: \n Save & close app (type: 0) | Products Menu (type: 1) | Couriers Menu (type: 2)')
-    input_for_main_menu = int(input("\n Select a menu option (0 | 1 | 2) - "))
+    
+    print("\n Main Menu")
+    print('Options: \n Save & close app (type: 0) | Products Menu (type: 1) | Couriers Menu (type: 2) | Orders Menu (type: 3)')
+    input_for_main_menu = int(input("\n Select a menu option (0 | 1 | 2 | 3) - "))
     
     if input_for_main_menu == 0:
         clear()
-        update_product_file()
-        update_courier_file()
+        update_product_file(products)
+        update_courier_file(couriers)
+        update_orders_file(orders_list)
         print("Thank you for using the app")
         sys.exit(0)
     
     elif input_for_main_menu == 1:
         clear()
-        print(f"\n Products available: {products}")
+        print(f"\n Products Menu")
         print("\n Options: \n Return to menu (type: 0) | Show products (type: 1) | Add new product (type: 2) | \n Update existing product (type: 3) | Delete a product (type: 4)")
         
-        input_second_options = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
+        products_menu_options_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
         
-        if input_second_options == 0:
+        if products_menu_options_input == 0:
             clear()
             print("You have returned to the main menu \n")
         
-        elif input_second_options == 1:
+        elif products_menu_options_input == 1:
             clear()
             print(f"Products available: {products}")
         
-        elif input_second_options == 2:
+        elif products_menu_options_input == 2:
             clear()
-            add_new_product()
+            products = add_new_product(products)
         
-        elif input_second_options == 3:
+        elif products_menu_options_input == 3:
             clear()
-            edit_existing_product()
+            edit_existing_product(products)
         
-        elif input_second_options == 4:
+        elif products_menu_options_input == 4:
             clear()
-            delete_product()
+            delete_product(products)
         
         else:
             clear()
@@ -151,34 +65,65 @@ while True:
     
     elif input_for_main_menu == 2:
         clear()
-        print(f"\n Couriers available: {couriers}")
+        print(f"\n Courier Menu")
         print("\n Options: \n Return to menu (type: 0) | View couriers available (type: 1) | Add new courier (type: 2) |\n Update existing courier (type: 3) | Remove existing courier (type: 4)")
         
-        input_third_options = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
+        courier_menu_option_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
         
-        if input_third_options == 0:
+        if courier_menu_option_input == 0:
             clear()
             print("You have returned to the main menu \n ")
         
-        elif input_third_options == 1:
+        elif courier_menu_option_input == 1:
             clear()
             print(f"Couriers available: {couriers}")
         
-        elif input_third_options == 2:
+        elif courier_menu_option_input == 2:
             clear()
-            add_new_courier()
+            add_new_courier(couriers)
         
-        elif input_third_options == 3:
+        elif courier_menu_option_input == 3:
             clear()
-            edit_existing_courier()
+            edit_existing_courier(couriers)
         
-        elif input_third_options == 4:
+        elif courier_menu_option_input == 4:
             clear()
-            delete_courier()
+            delete_courier(couriers)
         
         else:
             clear()
             print("That was not a valid option, please eneter a valid one.")
+    
+    elif input_for_main_menu == 3:
+        clear()
+        print("\n Order Menu")
+        print("\n Options: \n Return to menu (type: 0) | View orders (type: 1) | Create new order (type: 2) |\n Update order status (type: 3) | Update Order (type: 4) | Delete order (type: 5)")
+        
+        order_menu_option_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4 | 5) - "))
+        
+        if order_menu_option_input == 0:
+            clear()
+            print("You have returned to the main menu \n")
+        
+        elif order_menu_option_input == 1:
+            clear()
+            show_orders(orders_list)
+        
+        elif order_menu_option_input == 2:
+            clear()
+            add_new_order(orders_list, couriers)
+        
+        elif order_menu_option_input == 3:
+            clear()
+            update_order_status(orders_list)
+        
+        elif order_menu_option_input == 4:
+            clear()
+            edit_existing_order(orders_list, couriers)
+        
+        elif order_menu_option_input == 5:
+            clear()
+            delete_order(orders_list)
     
     else:
         clear()
