@@ -1,43 +1,54 @@
 import sys
 import os
-import csv
-from products_functions import *
-from couriers_functions import *
-from orders_functions import *
+import pymysql
+from products_functions_sql import *
+from couriers_functions_sql import *
+from orders_functions_sql import *
 
-print('Welcome to the Coffee House!')
-
-products = []
-couriers = []
-orders_list = []
+print('\nWelcome to Nip to the Cafe')
 
 def clear():
     os.system( 'cls' )
 
-open_product_file(products)
-open_courier_file(couriers)
-open_orders_file(orders_list)
+my_db = pymysql.connect(
+    host = "localhost",
+    user = "root",
+    password = "password",
+    database = "mini_project",
+)
 
 while True:
     
-    print("\n Main Menu")
-    print('Options: \n Save & close app (type: 0) | Products Menu (type: 1) | Couriers Menu (type: 2) | Orders Menu (type: 3)')
-    input_for_main_menu = int(input("\n Select a menu option (0 | 1 | 2 | 3) - "))
+    print("\n~~~~~~~~~~~~~")
+    print("| Main Menu |")
+    print("~~~~~~~~~~~~~")
+    print('\nOptions: \nSave & close app (type: 0) | Products Menu (type: 1) | Couriers Menu (type: 2) | Orders Menu (type: 3)')
+    try:
+        input_for_main_menu = int(input("\nSelect a menu option (0 | 1 | 2 | 3) - "))
+    except:
+        clear()
+        print("That was not a valid option, please eneter a valid one.")
+        continue
     
     if input_for_main_menu == 0:
         clear()
-        update_product_file(products)
-        update_courier_file(couriers)
-        update_orders_file(orders_list)
+        my_db.close()
         print("Thank you for using the app")
         sys.exit(0)
     
     elif input_for_main_menu == 1:
         clear()
-        print(f"\n Products Menu")
-        print("\n Options: \n Return to menu (type: 0) | Show products (type: 1) | Add new product (type: 2) | \n Update existing product (type: 3) | Delete a product (type: 4)")
+        print("\n~~~~~~~~~~~~~~~~~")
+        print("| Products Menu |")
+        print("~~~~~~~~~~~~~~~~~")
+        print("\nOptions: \nReturn to menu (type: 0) | Show products (type: 1) | Add new product (type: 2) \nUpdate existing product (type: 3) | Delete a product (type: 4)")
         
-        products_menu_options_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
+        try:
+            products_menu_options_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4) - "))
+        except:
+            clear()
+            print("That was not a valid option, please eneter a valid one.")
+            continue
         
         if products_menu_options_input == 0:
             clear()
@@ -45,19 +56,19 @@ while True:
         
         elif products_menu_options_input == 1:
             clear()
-            print(f"Products available: {products}")
+            show_products(my_db)
         
         elif products_menu_options_input == 2:
             clear()
-            products = add_new_product(products)
+            add_new_product(my_db)
         
         elif products_menu_options_input == 3:
             clear()
-            edit_existing_product(products)
+            edit_existing_product(my_db)
         
         elif products_menu_options_input == 4:
             clear()
-            delete_product(products)
+            delete_product(my_db)
         
         else:
             clear()
@@ -65,10 +76,16 @@ while True:
     
     elif input_for_main_menu == 2:
         clear()
-        print(f"\n Courier Menu")
-        print("\n Options: \n Return to menu (type: 0) | View couriers available (type: 1) | Add new courier (type: 2) |\n Update existing courier (type: 3) | Remove existing courier (type: 4)")
-        
-        courier_menu_option_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4) - "))
+        print("\n~~~~~~~~~~~~~~~~")
+        print("| Courier Menu |")
+        print("~~~~~~~~~~~~~~~~")
+        print("\nOptions: \nReturn to menu (type: 0) | View couriers available (type: 1) | Add new courier (type: 2) \nUpdate existing courier (type: 3) | Remove existing courier (type: 4)")
+        try:
+            courier_menu_option_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4) - "))
+        except:
+            clear()
+            print("That was an invalid option")
+            continue
         
         if courier_menu_option_input == 0:
             clear()
@@ -76,19 +93,19 @@ while True:
         
         elif courier_menu_option_input == 1:
             clear()
-            print(f"Couriers available: {couriers}")
+            show_couriers(my_db)
         
         elif courier_menu_option_input == 2:
             clear()
-            add_new_courier(couriers)
+            add_new_courier(my_db)
         
         elif courier_menu_option_input == 3:
             clear()
-            edit_existing_courier(couriers)
+            edit_existing_courier(my_db)
         
         elif courier_menu_option_input == 4:
             clear()
-            delete_courier(couriers)
+            delete_courier(my_db)
         
         else:
             clear()
@@ -96,10 +113,17 @@ while True:
     
     elif input_for_main_menu == 3:
         clear()
-        print("\n Order Menu")
-        print("\n Options: \n Return to menu (type: 0) | View orders (type: 1) | Create new order (type: 2) |\n Update order status (type: 3) | Update Order (type: 4) | Delete order (type: 5)")
+        print("\n~~~~~~~~~~~~~~")
+        print("| Order Menu |")
+        print("~~~~~~~~~~~~~~")
+        print("\nOptions: \nReturn to menu (type: 0) | View orders (type: 1) | Create new order (type: 2) \nUpdate order status (type: 3) | Update Order (type: 4) | Delete order (type: 5)")
         
-        order_menu_option_input = int(input("\n Select a menu option (0 | 1 | 2 | 3 | 4 | 5) - "))
+        try:
+            order_menu_option_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4 | 5) - "))
+        except:
+            clear()
+            print("That was an invalid option")
+            continue
         
         if order_menu_option_input == 0:
             clear()
@@ -107,23 +131,23 @@ while True:
         
         elif order_menu_option_input == 1:
             clear()
-            show_orders(orders_list)
+            show_orders(my_db)
         
         elif order_menu_option_input == 2:
             clear()
-            add_new_order(orders_list, couriers)
+            add_new_order(my_db)
         
         elif order_menu_option_input == 3:
             clear()
-            update_order_status(orders_list)
+            update_order_status(my_db)
         
         elif order_menu_option_input == 4:
             clear()
-            edit_existing_order(orders_list, couriers)
+            edit_existing_order(my_db)
         
         elif order_menu_option_input == 5:
             clear()
-            delete_order(orders_list)
+            delete_order(my_db)
     
     else:
         clear()
