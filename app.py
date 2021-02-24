@@ -5,17 +5,17 @@ from products_functions_sql import *
 from couriers_functions_sql import *
 from orders_functions_sql import *
 
-print('\nWelcome to Nip to the Cafe')
+print('\nWelcome to the app!')
+
+my_db = pymysql.connect(
+    "localhost",
+    "root",
+    "password",
+    "mini_project"
+)
 
 def clear():
     os.system( 'cls' )
-
-my_db = pymysql.connect(
-    host = "localhost",
-    user = "root",
-    password = "password",
-    database = "mini_project",
-)
 
 while True:
     
@@ -27,7 +27,7 @@ while True:
         input_for_main_menu = int(input("\nSelect a menu option (0 | 1 | 2 | 3) - "))
     except:
         clear()
-        print("That was not a valid option, please eneter a valid one.")
+        print("That was an invalid option")
         continue
     
     if input_for_main_menu == 0:
@@ -41,13 +41,12 @@ while True:
         print("\n~~~~~~~~~~~~~~~~~")
         print("| Products Menu |")
         print("~~~~~~~~~~~~~~~~~")
-        print("\nOptions: \nReturn to menu (type: 0) | Show products (type: 1) | Add new product (type: 2) \nUpdate existing product (type: 3) | Delete a product (type: 4)")
-        
+        print("\nOptions: \nReturn to menu (type: 0) | Show products (type: 1) | Add new product (type: 2) | \n Update existing product (type: 3) | Delete a product (type: 4)")
         try:
             products_menu_options_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4) - "))
         except:
             clear()
-            print("That was not a valid option, please eneter a valid one.")
+            print("That was an invalid option")
             continue
         
         if products_menu_options_input == 0:
@@ -79,7 +78,7 @@ while True:
         print("\n~~~~~~~~~~~~~~~~")
         print("| Courier Menu |")
         print("~~~~~~~~~~~~~~~~")
-        print("\nOptions: \nReturn to menu (type: 0) | View couriers available (type: 1) | Add new courier (type: 2) \nUpdate existing courier (type: 3) | Remove existing courier (type: 4)")
+        print("Options: \nReturn to menu (type: 0) | View couriers available (type: 1) | Add new courier (type: 2) |\n Update existing courier (type: 3) | Remove existing courier (type: 4)")
         try:
             courier_menu_option_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4) - "))
         except:
@@ -116,7 +115,7 @@ while True:
         print("\n~~~~~~~~~~~~~~")
         print("| Order Menu |")
         print("~~~~~~~~~~~~~~")
-        print("\nOptions: \nReturn to menu (type: 0) | View orders (type: 1) | Create new order (type: 2) \nUpdate order status (type: 3) | Update Order (type: 4) | Delete order (type: 5)")
+        print("\nOptions: \nReturn to menu (type: 0) | View orders (type: 1) | Create new order (type: 2) |\n Update order status (type: 3) | Update Order (type: 4) | Delete order (type: 5)")
         
         try:
             order_menu_option_input = int(input("\nSelect a menu option (0 | 1 | 2 | 3 | 4 | 5) - "))
